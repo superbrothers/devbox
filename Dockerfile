@@ -34,3 +34,4 @@ RUN set -x -e && brew install peco
 RUN set -x -e && brew install ghq
 RUN set -x -e && brew install go
 RUN set -x -e && brew install node
+RUN set -x -e && brew install screen
