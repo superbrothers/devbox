@@ -1,16 +1,12 @@
 FROM ubuntu:18.04
 
-COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
-
-# Install docker-ce-cli
+# Install build-essential etc
 RUN set -x -e && \
     apt-get update && \
-    apt-get -y install gpg-agent apt-transport-https ca-certificates curl software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    apt-key fingerprint 0EBFCD88 && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
-    apt-get update && \
-    apt-get install -y docker-ce-cli
+    apt-get install -y build-essential apt-utils locales curl file git && \
+    locale-gen en_US.UTF-8
+
+COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
 
 # Create a user
 RUN set -x -e && \
@@ -21,3 +17,15 @@ RUN set -x -e && \
     echo "ksuda ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER ksuda
+ENV USER=ksuda
+
+# Install Linuxbrew
+# https://github.com/Homebrew/brew/blob/master/docs/Linuxbrew.md
+RUN set -x -e && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+
+# Install development packages
+RUN set -x -e && \
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    brew install \
+        docker

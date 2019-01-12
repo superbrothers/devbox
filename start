@@ -6,7 +6,7 @@ exec docker run \
     --rm \
     -it \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /home/kazukisuda:/home/ksuda \
+    -v /home/kazukisuda/dev:/home/ksuda \
     -w /home/ksuda \
     superbrothers/dev \
-    /bin/bash
+    /bin/bash --login
