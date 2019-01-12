@@ -1,4 +1,4 @@
-From ubuntu:18.04
+FROM ubuntu:18.04
 
 COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
 
