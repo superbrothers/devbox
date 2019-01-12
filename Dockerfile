@@ -24,8 +24,13 @@ ENV USER=ksuda
 RUN set -x -e && \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+
 # Install development packages
-RUN set -x -e && \
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
-    brew install \
-        docker
+RUN set -x -e && brew install docker
+RUN set -x -e && brew install zsh
+RUN set -x -e && brew install vim
+RUN set -x -e && brew install peco
+RUN set -x -e && brew install ghq
+RUN set -x -e && brew install go
+RUN set -x -e && brew install node
