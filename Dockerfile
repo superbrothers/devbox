@@ -36,3 +36,6 @@ RUN set -x -e && brew install go
 RUN set -x -e && brew install node
 RUN set -x -e && brew install screen
 RUN set -x -e && brew install jq
+
+# Set default environment variables
+ENV EDITOR=vim
