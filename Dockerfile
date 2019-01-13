@@ -22,20 +22,24 @@ ENV USER=ksuda
 # Install Linuxbrew
 # https://github.com/Homebrew/brew/blob/master/docs/Linuxbrew.md
 RUN set -x -e && \
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)" && \
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    brew --version && \
+    brew update
 
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
 
 # Install development packages
-RUN set -x -e && brew install docker
-RUN set -x -e && brew install zsh
-RUN set -x -e && brew install vim
-RUN set -x -e && brew install peco
-RUN set -x -e && brew install ghq
-RUN set -x -e && brew install go
-RUN set -x -e && brew install node
-RUN set -x -e && brew install screen
-RUN set -x -e && brew install jq
+ARG HOMEBREW_NO_AUTO_UPDATE=1
+RUN set -x && brew install docker
+RUN set -x && brew install zsh
+RUN set -x && brew install vim
+RUN set -x && brew install peco
+RUN set -x && brew install ghq
+RUN set -x && brew install go
+RUN set -x && brew install node
+RUN set -x && brew install screen
+RUN set -x && brew install jq
 
 # Set default environment variables
 ENV EDITOR=vim
