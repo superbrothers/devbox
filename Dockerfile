@@ -41,6 +41,7 @@ RUN set -x && brew install go
 RUN set -x && brew install node
 RUN set -x && brew install screen
 RUN set -x && brew install jq
+RUN set -x && brew install dep
 
 # Install go tools
 ENV GOPATH="/go"
