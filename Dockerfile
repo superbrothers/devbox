@@ -18,6 +18,7 @@ RUN set -x -e && \
 
 USER ksuda
 ENV USER=ksuda
+ENV HOME="/home/$USER"
 
 # Install Linuxbrew
 # https://github.com/Homebrew/brew/blob/master/docs/Linuxbrew.md
@@ -41,5 +42,18 @@ RUN set -x && brew install node
 RUN set -x && brew install screen
 RUN set -x && brew install jq
 
+# Install go tools
+ENV GOPATH="/go"
+RUN set -x -e && \
+    sudo mkdir "$GOPATH" && \
+    sudo chown "$USER" "$GOPATH" && \
+    export GOCACHE=/tmp/gocache && \
+    go get github.com/nsf/gocode && \
+    rm -rf "$GOPATH/src" "$GOCACHE"
+
+ENV PATH="$GOPATH/bin:$PATH"
+
 # Set default environment variables
 ENV EDITOR=vim
+ENV GOPATH="$HOME"
+ENV GHQ_ROOT="$HOME/src"
