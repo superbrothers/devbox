@@ -50,6 +50,7 @@ RUN set -x -e && \
     sudo chown "$USER" "$GOPATH" && \
     export GOCACHE=/tmp/gocache && \
     go get github.com/nsf/gocode && \
+    go get github.com/wagoodman/dive && \
     rm -rf "$GOPATH/src" "$GOCACHE"
 
 ENV PATH="$GOPATH/bin:$PATH"
