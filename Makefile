@@ -1,4 +1,4 @@
-IMAGE := superbrothers/dev
+IMAGE := superbrothers/devbox
 
 .PHONY: image
 image:

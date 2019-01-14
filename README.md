@@ -1,7 +1,7 @@
 # A Docker image for my development environment 
 
 ```
-$ git clone https://github.com/superbrothers/dev && cd dev
+$ git clone https://github.com/superbrothers/devbox && cd devbox
 $ ./start
 ```
 
