@@ -2,11 +2,17 @@
 
 set -e
 
+if [[ ! -d /home/dev ]]; then
+    echo "Could not find /home/dev, so now creating..."
+    sudo mkdir -p /home/dev
+    sudo chown 1000:1000 /home/dev
+fi
+
 exec docker run \
     --rm \
     -it \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /home/kazukisuda/dev:/home/ksuda \
-    -w /home/ksuda \
+    -v "/home/dev:/home/dev" \
+    -w /home/dev \
     superbrothers/devbox \
     /bin/bash --login

@@ -9,15 +9,15 @@ RUN set -x -e && \
 COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
 
 # Create a user
+ENV USER=dev
 RUN set -x -e && \
     apt-get update && \
     apt-get -y install sudo && \
     groupadd -g 999 docker && \
-    useradd -G docker -m -s /bin/bash ksuda && \
-    echo "ksuda ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    useradd -G docker -m -s /bin/bash "$USER" && \
+    echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER ksuda
-ENV USER=ksuda
+USER "$USER"
 ENV HOME="/home/$USER"
 
 # Install Linuxbrew
