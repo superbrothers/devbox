@@ -14,5 +14,6 @@ exec docker run \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "/home/dev:/home/dev" \
     -w /home/dev \
+    --net host \
     superbrothers/devbox \
     /bin/bash --login
