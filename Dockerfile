@@ -11,7 +11,8 @@ RUN set -x -e && \
         file \
         git \
         wget \
-        tree && \
+        tree \
+        zip && \
     locale-gen en_US.UTF-8
 
 COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
