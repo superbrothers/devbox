@@ -3,7 +3,15 @@ FROM ubuntu:18.04
 # Install build-essential etc
 RUN set -x -e && \
     apt-get update && \
-    apt-get install -y build-essential apt-utils locales curl file git wget && \
+    apt-get install -y \
+        build-essential \
+        apt-utils \
+        locales \
+        curl \
+        file \
+        git \
+        wget \
+        tree && \
     locale-gen en_US.UTF-8
 
 COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
