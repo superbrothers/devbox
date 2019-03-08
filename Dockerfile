@@ -52,6 +52,7 @@ RUN set -x && brew install node
 RUN set -x && brew install screen
 RUN set -x && brew install jq
 RUN set -x && brew install dep
+RUN set -x && brew install ctags
 
 # Install go tools
 ENV GOPATH="/go"
