@@ -8,12 +8,35 @@ if [[ ! -d /home/dev ]]; then
     sudo chown 1000:1000 /home/dev
 fi
 
-exec docker run \
-    --rm \
+# container name
+name="devbox-${1:-default}"
+
+case "$(docker inspect "$name" 2>/dev/null | jq -r ".[].State.Status")" in
+    running )
+        # noop
+        ;;
+    exited )
+        # restart the exited container
+        docker start "$name" 2>&1 >/dev/null
+        ;;
+    * )
+        # create a new container
+        docker run \
+            --name "$name" \
+            -d \
+            --init \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "/home/dev:/home/dev" \
+            -w /home/dev \
+            --net host \
+            superbrothers/devbox \
+            tail -f /dev/null 2>&1 >/dev/null
+        ;;
+esac
+
+# Enter the devbox container
+exec docker exec \
     -it \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "/home/dev:/home/dev" \
     -w /home/dev \
-    --net host \
-    superbrothers/devbox \
+    "$name" \
     /bin/bash --login
