@@ -44,6 +44,7 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
 ARG HOMEBREW_NO_AUTO_UPDATE=1
 RUN set -x && brew install docker
 RUN set -x && brew install zsh
+RUN set -x && brew install zsh-syntax-highlighting
 RUN set -x && brew install vim
 RUN set -x && brew install peco
 RUN set -x && brew install ghq
