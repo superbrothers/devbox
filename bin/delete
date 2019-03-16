@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+name="devbox-${1:-default}"
+
+case "$(docker inspect "$name" 2>/dev/null | jq -r '.[].State.Status')" in
+    running )
+        # stop a running container
+        docker stop "$name"
+	;&
+    exited )
+        # remove a exited container
+        docker rm "$name"
+        ;;
+    * )
+        # the container does not exist
+        exit 1
+        ;;
+esac
