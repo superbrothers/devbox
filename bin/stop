@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+name="devbox-${1:-default}"
+
+exec docker stop "$name"
