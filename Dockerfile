@@ -5,6 +5,7 @@ RUN set -x -e && \
     apt-get update && \
     apt-get install -y \
         build-essential \
+        gcc-5 \
         apt-utils \
         locales \
         curl \
