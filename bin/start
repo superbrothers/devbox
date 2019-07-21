@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
-set -e
+set -e -o pipefail; [[ -n "$DEBUG" ]] && set -x
 
-if [[ ! -d /home/dev ]]; then
-    echo "Could not find /home/dev, so now creating..."
-    sudo mkdir -p /home/dev
-    sudo chown 1000:1000 /home/dev
+DEVBOX_HOME="${DEVBOX_HOME:-/home/dev}"
+if [[ ! -d "$DEVBOX_HOME" ]]; then
+    echo "Could not find $DEVBOX_HOME, so now creating..."
+    sudo mkdir -p "$DEVBOX_HOME/.devbox"
+    sudo chown 1000:1000 -r "$DEVBOX_HOME"
 fi
 
 # container name
 name="devbox-${1:-default}"
+
+# start ssh-agent if not started
+export SSH_AUTH_SOCK="$DEVBOX_HOME/.devbox/ssh-agent.sock"
+if ! ssh-add -l >/dev/null 2>&1; then
+    rm -f "$SSH_AUTH_SOCK"
+    eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" >/dev/null
+    echo "Add ssh private keys to the ssh-agent"
+    ssh-add ||:
+fi
 
 case "$(docker inspect "$name" 2>/dev/null | jq -r ".[].State.Status")" in
     running )
@@ -25,11 +35,11 @@ case "$(docker inspect "$name" 2>/dev/null | jq -r ".[].State.Status")" in
             --name "$name" \
             -d \
             --init \
-	    -e SSH_AUTH_SOCK \
+            -e SSH_AUTH_SOCK \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "/home/dev:/home/dev" \
-	    -v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" \
-            -w /home/dev \
+            -v "${DEVBOX_HOME}:${DEVBOX_HOME}" \
+            -v "${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}" \
+            -w "$DEVBOX_HOME" \
             --net host \
             superbrothers/devbox \
             tail -f /dev/null 2>&1 >/dev/null
