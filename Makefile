@@ -1,8 +1,8 @@
 IMAGE := superbrothers/devbox
 
-.PHONY: image
-image:
-		docker build -t $(IMAGE) .
+.PHONY: build
+build:
+		erb -T 2 Dockerfile.erb | DOCKER_BUILDKIT=1 docker build -f- -t $(IMAGE) .
 
 .PHONY: push
 push:
