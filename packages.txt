@@ -1,0 +1,12 @@
+vim 8.1.2000
+docker 19.03.2
+zsh 5.7.1
+zsh-syntax-highlighting 0.6.0
+peco 0.5.3
+go 1.13
+screen 4.6.2
+jq 1.6
+dep 0.5.4
+ctags 5.8
+node 12.10.0
+dive 0.8.1
