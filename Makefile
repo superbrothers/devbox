@@ -1,8 +1,10 @@
 IMAGE := superbrothers/devbox
 
+ERB ?= docker run -i ruby:2.5-slim erb
+
 .PHONY: build
 build:
-		erb -T 2 Dockerfile.erb | DOCKER_BUILDKIT=1 docker build -f- -t $(IMAGE) .
+		cat Dockerfile.erb | $(ERB) -T 2 | DOCKER_BUILDKIT=1 docker build -f- -t $(IMAGE) .
 
 .PHONY: push
 push:
