@@ -50,7 +50,7 @@ ENV HOMEBREW_NO_AUTO_UPDATE=1
 # Install development packages
 
 FROM stage-0 AS brew-vim
-ENV VERSION 8.1.2000
+ENV VERSION 8.1.2050
 RUN set -x && brew install vim
 
 FROM stage-0 AS brew-docker
