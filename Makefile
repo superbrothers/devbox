@@ -2,8 +2,11 @@ IMAGE := superbrothers/devbox
 
 ERB ?= docker run -v "$${PWD}:$${PWD}" -w "$${PWD}" ruby:2.5-slim erb
 
-Dockerfile: Dockerfile.erb packages.txt
-		$(ERB) -T 2 Dockerfile.erb >$@
+packages.txt:
+		./hack/update-packages.sh
+
+Dockerfile: hack/Dockerfile.erb packages.txt
+		$(ERB) -T 2 hack/Dockerfile.erb >$@
 
 .PHONY: build
 build: Dockerfile

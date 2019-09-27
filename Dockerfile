@@ -8,6 +8,7 @@ RUN set -x -e && \
     apt-get update && \
     apt-get install -y \
         build-essential \
+        bash \
         apt-utils \
         locales \
         curl \
@@ -21,6 +22,8 @@ RUN set -x -e && \
     locale-gen en_US.UTF-8 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-c"]
 
 COPY etc/apt/apt.conf.d/01norecommend /etc/apt/apt.conf.d/01norecommend
 
@@ -81,17 +84,9 @@ FROM stage-0 AS brew-jq
 ENV VERSION 1.6
 RUN set -x && brew install jq
 
-FROM stage-0 AS brew-dep
-ENV VERSION 0.5.4
-RUN set -x && brew install dep
-
 FROM stage-0 AS brew-ctags
 ENV VERSION 5.8
 RUN set -x && brew install ctags
-
-FROM stage-0 AS brew-node
-ENV VERSION 12.12.0
-RUN set -x && brew install node
 
 FROM stage-0 AS brew-dive
 ENV VERSION 0.8.1
@@ -103,9 +98,27 @@ FROM brew-go AS go-tools
 ENV GOPATH="/go"
 RUN set -x -e && \
     sudo mkdir "$GOPATH" && \
-    sudo chown "$USER" "$GOPATH" && \
+    sudo chown "$USER:$USER" "$GOPATH" && \
     export GOCACHE=/tmp && \
-    go get github.com/nsf/gocode
+    go get github.com/nsf/gocode && \
+    go get github.com/motemen/ghq
+
+# Install asdf-vm
+# https://github.com/asdf-vm/asdf
+FROM stage-0 AS asdf
+ENV ASDF_DATA_DIR=/asdf
+RUN set -x -e && \
+    sudo mkdir "$ASDF_DATA_DIR" && \
+    sudo chown "$USER:$USER" "$ASDF_DATA_DIR" && \
+    git clone https://github.com/asdf-vm/asdf.git "$ASDF_DATA_DIR" && \
+    . $ASDF_DATA_DIR/asdf.sh && \
+    # Create symlinks
+    ln -s "${HOME}/.asdf/installs" "${ASDF_DATA_DIR}/installs" && \
+    ln -s "${HOME}/.asdf/shims" "${ASDF_DATA_DIR}/shims" && \
+    # Install plugins
+    asdf plugin-add golang https://github.com/kennyp/asdf-golang && \
+    asdf plugin-add node https://github.com/asdf-vm/asdf-nodejs && \
+    asdf plugin-add kubectl https://github.com/Banno/asdf-kubectl
 
 FROM stage-0
 COPY --from=brew-vim /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
@@ -116,11 +129,10 @@ COPY --from=brew-peco /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=brew-go /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=brew-screen /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=brew-jq /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
-COPY --from=brew-dep /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=brew-ctags /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
-COPY --from=brew-node /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=brew-dive /home/linuxbrew/.linuxbrew/ /home/linuxbrew/.linuxbrew/
 COPY --from=go-tools /go/ /go/
+COPY --from=asdf /asdf/ /asdf/
 ENV PATH="/go/bin:$PATH"
 
 # Set default environment variables
@@ -128,3 +140,6 @@ ENV EDITOR=vim
 ENV GOPATH="$HOME"
 ENV GHQ_ROOT="$HOME/src"
 ENV LESSCHARSET=utf-8
+ENV ASDF_DATA_DIR=/asdf
+
+COPY etc/profile.d/asdf.sh /etc/profile.d/asdf.sh
