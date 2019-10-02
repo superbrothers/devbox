@@ -50,7 +50,7 @@ ENV HOMEBREW_NO_AUTO_UPDATE=1
 # Install development packages
 
 FROM stage-0 AS brew-vim
-ENV VERSION 8.1.2050
+ENV VERSION 8.1.2100
 RUN set -x && brew install vim
 
 FROM stage-0 AS brew-docker
@@ -70,7 +70,7 @@ ENV VERSION 0.5.3
 RUN set -x && brew install peco
 
 FROM stage-0 AS brew-go
-ENV VERSION 1.13
+ENV VERSION 1.13.1
 RUN set -x && brew install go
 
 FROM stage-0 AS brew-screen
