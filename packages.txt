@@ -4,9 +4,9 @@ zsh 5.7.1
 zsh-syntax-highlighting 0.6.0
 peco 0.5.3
 go 1.13.1
-screen 4.6.2
+screen 4.7.0
 jq 1.6
 dep 0.5.4
 ctags 5.8
-node 12.10.0
+node 12.11.1
 dive 0.8.1

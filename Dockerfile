@@ -74,7 +74,7 @@ ENV VERSION 1.13.1
 RUN set -x && brew install go
 
 FROM stage-0 AS brew-screen
-ENV VERSION 4.6.2
+ENV VERSION 4.7.0
 RUN set -x && brew install screen
 
 FROM stage-0 AS brew-jq
@@ -90,7 +90,7 @@ ENV VERSION 5.8
 RUN set -x && brew install ctags
 
 FROM stage-0 AS brew-node
-ENV VERSION 12.10.0
+ENV VERSION 12.11.1
 RUN set -x && brew install node
 
 FROM stage-0 AS brew-dive
