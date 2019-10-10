@@ -1,5 +1,5 @@
 vim 8.1.2100
-docker 19.03.2
+docker 19.03.3
 zsh 5.7.1
 zsh-syntax-highlighting 0.6.0
 peco 0.5.3

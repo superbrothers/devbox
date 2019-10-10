@@ -54,7 +54,7 @@ ENV VERSION 8.1.2100
 RUN set -x && brew install vim
 
 FROM stage-0 AS brew-docker
-ENV VERSION 19.03.2
+ENV VERSION 19.03.3
 RUN set -x && brew install docker
 
 FROM stage-0 AS brew-zsh
