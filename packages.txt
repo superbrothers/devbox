@@ -8,5 +8,5 @@ screen 4.7.0
 jq 1.6
 dep 0.5.4
 ctags 5.8
-node 12.11.1
+node 12.12.0
 dive 0.8.1
