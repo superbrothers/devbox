@@ -90,7 +90,7 @@ ENV VERSION 5.8
 RUN set -x && brew install ctags
 
 FROM stage-0 AS brew-node
-ENV VERSION 12.11.1
+ENV VERSION 12.12.0
 RUN set -x && brew install node
 
 FROM stage-0 AS brew-dive
