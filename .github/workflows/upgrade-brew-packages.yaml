@@ -1,7 +1,7 @@
 name: Upgrade brew packages
 on:
   schedule:
-  - cron: "0 0 0 * *" # Every month
+  - cron: "0 0 1 * *" # Every month
   repository_dispatch: {}
 jobs:
   upgrade:
