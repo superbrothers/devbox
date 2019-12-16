@@ -50,11 +50,11 @@ ENV HOMEBREW_NO_AUTO_UPDATE=1
 # Install development packages
 
 FROM stage-0 AS brew-vim
-ENV VERSION 8.1.2150
+ENV VERSION 8.1.2350
 RUN set -x && brew install vim
 
 FROM stage-0 AS brew-docker
-ENV VERSION 19.03.3
+ENV VERSION 19.03.5
 RUN set -x && brew install docker
 
 FROM stage-0 AS brew-zsh
@@ -70,7 +70,7 @@ ENV VERSION 0.5.3
 RUN set -x && brew install peco
 
 FROM stage-0 AS brew-go
-ENV VERSION 1.13.1
+ENV VERSION 1.13.4
 RUN set -x && brew install go
 
 FROM stage-0 AS brew-screen
@@ -90,11 +90,11 @@ ENV VERSION 5.8
 RUN set -x && brew install ctags
 
 FROM stage-0 AS brew-node
-ENV VERSION 12.12.0
+ENV VERSION 13.2.0
 RUN set -x && brew install node
 
 FROM stage-0 AS brew-dive
-ENV VERSION 0.8.1
+ENV VERSION 0.9.1
 RUN set -x && brew install dive
 
 
