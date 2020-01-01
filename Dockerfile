@@ -50,7 +50,7 @@ ENV HOMEBREW_NO_AUTO_UPDATE=1
 # Install development packages
 
 FROM stage-0 AS brew-vim
-ENV VERSION 8.1.2350
+ENV VERSION 8.2.0
 RUN set -x && brew install vim
 
 FROM stage-0 AS brew-docker
@@ -66,11 +66,11 @@ ENV VERSION 0.6.0
 RUN set -x && brew install zsh-syntax-highlighting
 
 FROM stage-0 AS brew-peco
-ENV VERSION 0.5.3
+ENV VERSION 0.5.4
 RUN set -x && brew install peco
 
 FROM stage-0 AS brew-go
-ENV VERSION 1.13.4
+ENV VERSION 1.13.5
 RUN set -x && brew install go
 
 FROM stage-0 AS brew-screen
@@ -90,7 +90,7 @@ ENV VERSION 5.8
 RUN set -x && brew install ctags
 
 FROM stage-0 AS brew-node
-ENV VERSION 13.2.0
+ENV VERSION 13.5.0
 RUN set -x && brew install node
 
 FROM stage-0 AS brew-dive
