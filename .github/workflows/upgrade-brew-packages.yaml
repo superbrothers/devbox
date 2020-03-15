@@ -20,7 +20,7 @@ jobs:
          make Dockerfile
     - name: Create a Pull Request
       uses: peter-evans/create-pull-request@v2.4.4
-      env:
+      with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: Upgrade brew packages
         title: Upgrade brew packages
