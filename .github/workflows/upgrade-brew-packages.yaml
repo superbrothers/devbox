@@ -8,16 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install Homebrew
+    - name: Update Brewfile.lock.json
       run: |
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
         eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
         brew --version
-    - name: Update packages.txt
-      run: |
-         eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-         ./hack/update-packages.sh
-         make Dockerfile
+        brew bundle install
+        git diff
     - name: Create a Pull Request
       uses: peter-evans/create-pull-request@v2
       with:
