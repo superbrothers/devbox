@@ -13,7 +13,10 @@ on:
     - unlocked
   pull_request_review:
     types:
-    - submitted
+      - submitted
+  check_suite:
+    types:
+      - completed
   status: {}
 
 jobs:
@@ -21,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: automerge
-      uses: "pascalgn/automerge-action@v0.7.5"
+      uses: pascalgn/automerge-action@v0.8.2
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MERGE_METHOD: squash
